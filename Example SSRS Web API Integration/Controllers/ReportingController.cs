@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Microsoft.Reporting.WebForms;
 
 namespace Example_SSRS_Web_API_Integration.Controllers
 {
     public class ReportingController : ApiController
     {
+        [HttpPost]
         public byte[] SaveReport(string ReportResourcePath, ReportDataSource[] DataSources, ReportParameter[] ReportParameters)
         {
             byte[] bytes;
@@ -16,7 +14,8 @@ namespace Example_SSRS_Web_API_Integration.Controllers
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.ReportEmbeddedResource = ReportResourcePath;
 
-                foreach (var dataSource in DataSources) { 
+                foreach (ReportDataSource dataSource in DataSources)
+                {
                     reportViewer.LocalReport.DataSources.Add(dataSource);
                 }
 
@@ -34,6 +33,5 @@ namespace Example_SSRS_Web_API_Integration.Controllers
 
             return bytes;
         }
-
     }
 }
